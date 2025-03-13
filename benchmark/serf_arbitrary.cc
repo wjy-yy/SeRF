@@ -65,23 +65,25 @@ int main(int argc, char **argv) {
 
   // Parameters
   string dataset = "deep";
-  int data_size = 100000;
+  int data_size = 1000000;
   string dataset_path = "";
   string method = "";
   string query_path = "";
   string groundtruth_path = "";
-  vector<int> index_k_list = {8};
+  string range_path = "";
+  vector<int> index_k_list = {64};
   vector<int> ef_construction_list = {100};
   int query_num = 1000;
   int query_k = 10;
   vector<int> ef_max_list = {500};
-  vector<int> searchef_para_range_list = {16, 64, 256};
+  // vector<int> searchef_para_range_list = {16, 64, 256};
+  vector<int> searchef_para_range_list = {1700, 1400, 1100, 1000, 900, 800, 700, 600, 500, 400, 300, 250, 200, 180, 160, 140, 120, 100, 90, 80, 70, 60, 55, 50, 45, 40, 35, 30, 25, 20, 15, 10};
   bool full_range = false;
 
-  string indexk_str = "8";
+  string indexk_str = "64";
   string ef_con_str = "100";
   string ef_max_str = "500";
-  string ef_search_str = "16,64,256";
+  string ef_search_str = "1700, 1400, 1100, 1000, 900, 800, 700, 600, 500, 400, 300, 250, 200, 180, 160, 140, 120, 100, 90, 80, 70, 60, 55, 50, 45, 40, 35, 30, 25, 20, 15, 10";
   string version = "Benchmark";
 
   for (int i = 0; i < argc; i++) {
@@ -91,6 +93,7 @@ int main(int argc, char **argv) {
     if (arg == "-dataset_path") dataset_path = string(argv[i + 1]);
     if (arg == "-query_path") query_path = string(argv[i + 1]);
     if (arg == "-groundtruth_path") groundtruth_path = string(argv[i + 1]);
+    if (arg == "-range_path") range_path = string(argv[i + 1]);
     if (arg == "-index_k") indexk_str = string(argv[i + 1]);
     if (arg == "-ef_con") ef_con_str = string(argv[i + 1]);
     if (arg == "-ef_max") ef_max_str = string(argv[i + 1]);
@@ -112,12 +115,12 @@ int main(int argc, char **argv) {
   data_wrapper.readData(dataset_path, query_path);
 
   // Generate groundtruth
-  if (full_range)
-    data_wrapper.generateRangeFilteringQueriesAndGroundtruth(false);
-  else
-    data_wrapper.generateRangeFilteringQueriesAndGroundtruthBenchmark(false);
+  // if (full_range)
+  //   data_wrapper.generateRangeFilteringQueriesAndGroundtruth(false);
+  // else
+  //   data_wrapper.generateRangeFilteringQueriesAndGroundtruthBenchmark(false);
   // Or you can load groundtruth from the given path
-  // data_wrapper.LoadGroundtruth(groundtruth_path);
+  data_wrapper.LoadGroundtruth(groundtruth_path, range_path);
 
   assert(data_wrapper.query_ids.size() == data_wrapper.query_ranges.size());
 

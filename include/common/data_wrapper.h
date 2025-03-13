@@ -48,7 +48,7 @@ class DataWrapper {
                                                    const string path = "");
   void generateHalfBoundedQueriesAndGroundtruth(bool is_save = false,
                                                 const string path = "");
-  void LoadGroundtruth(const string &gt_path);
+  void LoadGroundtruth(const string &gt_path, const string &range_path);
 
   void generateRangeFilteringQueriesAndGroundtruthScalability(
       bool is_save = false, const string path = "");

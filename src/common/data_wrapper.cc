@@ -222,13 +222,13 @@ void DataWrapper::generateHalfBoundedQueriesAndGroundtruth(
   }
 }
 
-void DataWrapper::LoadGroundtruth(const string &gt_path) {
+void DataWrapper::LoadGroundtruth(const string &gt_path, const string &range_path) {
   this->groundtruth.clear();
   this->query_ranges.clear();
   this->query_ids.clear();
-  cout << "Loading Groundtruth from" << gt_path << "...";
+  cout << "Loading Groundtruth and range from" << gt_path << " and " <<range_path<<" ...";
   ReadGroundtruthQuery(this->groundtruth, this->query_ranges, this->query_ids,
-                       gt_path);
+                       gt_path, range_path);
   cout << "    Done!" << endl;
 }
 

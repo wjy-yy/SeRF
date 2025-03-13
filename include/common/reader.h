@@ -110,4 +110,4 @@ void ReadMatFromTsvYT8M(const string &path, vector<vector<float>> &data,
 
 void ReadGroundtruthQuery(std::vector<std::vector<int>> &gt,
                           std::vector<std::pair<int, int>> &query_ranges,
-                          std::vector<int> &query_ids, std::string gt_path);
+                          std::vector<int> &query_ids, std::string gt_path, std::string range_path);

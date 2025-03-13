@@ -482,37 +482,56 @@ void ReadMatFromTsvYT8M(const string &path, vector<vector<float>> &data,
 
 void ReadGroundtruthQuery(vector<vector<int>> &gt,
                           vector<std::pair<int, int>> &query_ranges,
-                          vector<int> &query_ids, string gt_path) {
-  ifstream infile;
-  string bline;
-  string delim = ",";
-  string space_delim = " ";
-
-  int numCols = 0;
-  infile.open(gt_path, ios::in);
-  assert(infile.is_open());
-
-  int counter = 0;
-  while (getline(infile, bline, '\n')) {
-    counter++;
+                          vector<int> &query_ids, string gt_path, string range_path) {
+  std::ifstream range(range_path);
+  std::ifstream gtin(gt_path);
+  int l,r,one_id=0;
+  while(range>>l)
+  {
+    range>>r;
+    query_ids.emplace_back(one_id++);
+    query_ranges.emplace_back(std::make_pair(l,r));
     vector<int> one_gt;
-    std::pair<int, int> one_range;
-    int one_id;
-    vector<string> ret;
-    Split(bline, delim, &ret);
-    one_id = std::stoi(ret[0]);
-    one_range.first = std::stoi(ret[1]);
-    one_range.second = std::stoi(ret[2]);
-    vector<string> str_gt;
-    Split(ret[7], space_delim, &str_gt);
-    str_gt.pop_back();
-    for (auto ele : str_gt) {
-      one_gt.emplace_back(std::stoi(ele));
+    for(int i=0;i<10;i++)
+    {
+      int x;
+      gtin>>x;
+      one_gt.emplace_back(x);
     }
     gt.emplace_back(one_gt);
-    query_ranges.emplace_back(one_range);
-    query_ids.emplace_back(one_id);
+  //   query_ranges.emplace_back(one_range);
+  //   
   }
+  // ifstream infile;
+  // string bline;
+  // string delim = ",";
+  // string space_delim = " ";
+
+  // int numCols = 0;
+  // infile.open(gt_path, ios::in);
+  // assert(infile.is_open());
+
+  // int counter = 0;
+  // while (getline(infile, bline, '\n')) {
+  //   counter++;
+  //   vector<int> one_gt;
+  //   std::pair<int, int> one_range;
+  //   int one_id;
+  //   vector<string> ret;
+  //   Split(bline, delim, &ret);
+  //   one_id = std::stoi(ret[0]);
+  //   one_range.first = std::stoi(ret[1]);
+  //   one_range.second = std::stoi(ret[2]);
+  //   vector<string> str_gt;
+  //   Split(ret[7], space_delim, &str_gt);
+  //   str_gt.pop_back();
+  //   for (auto ele : str_gt) {
+  //     one_gt.emplace_back(std::stoi(ele));
+  //   }
+  //   gt.emplace_back(one_gt);
+  //   query_ranges.emplace_back(one_range);
+  //   query_ids.emplace_back(one_id);
+  // }
 }
 
 void fvecs2csv(const string &output_path, const vector<vector<float>> &nodes) {
