@@ -76,14 +76,14 @@ int main(int argc, char **argv) {
   vector<int> ef_construction_list = {100};
   int query_num = 1000;
   int query_k = 10;
-  vector<int> ef_max_list = {500};
+  vector<int> ef_max_list = {1500};
   // vector<int> searchef_para_range_list = {16, 64, 256};
   vector<int> searchef_para_range_list = {1700, 1400, 1100, 1000, 900, 800, 700, 600, 500, 400, 300, 250, 200, 180, 160, 140, 120, 100, 90, 80, 70, 60, 55, 50, 45, 40, 35, 30, 25, 20, 15, 10};
   bool full_range = false;
 
   string indexk_str = "64";
   string ef_con_str = "100";
-  string ef_max_str = "500";
+  string ef_max_str = "1500";
   string ef_search_str = "1700, 1400, 1100, 1000, 900, 800, 700, 600, 500, 400, 300, 250, 200, 180, 160, 140, 120, 100, 90, 80, 70, 60, 55, 50, 45, 40, 35, 30, 25, 20, 15, 10";
   string version = "Benchmark";
 
@@ -197,6 +197,7 @@ int main(int argc, char **argv) {
                 tim += search_info.internal_search_time;
                 comparison_recorder[s_params.query_range] +=
                     search_info.total_comparison;
+                  // return 0;
               }
 
               cout << endl
