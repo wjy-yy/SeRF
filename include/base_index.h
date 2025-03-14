@@ -63,9 +63,9 @@ class BaseIndex {
       search = search_params;
       version = ver;
       method = meth;
-      // save_path = "../exp/search/" + version + "-" + method + "-" +
-      //             data_wrapper->dataset + "-" +
-      //             std::to_string(data_wrapper->data_size) + ".csv";
+      save_path = "/home/junyao/SeRF/exp/search/" + version + "-" + method + "-" +
+                  data_wrapper->dataset + "-" +
+                  std::to_string(data_wrapper->data_size) + ".csv";
       Path(ver);
     };
     const DataWrapper* data_wrapper;
@@ -93,7 +93,7 @@ class BaseIndex {
 
     void Path(const string& ver) {
       version = ver;
-      save_path = "../exp/search/" + version + "-" + method + "-" +
+      save_path = "/home/junyao/SeRF/exp/search/" + version + "-" + method + "-" +
                   data_wrapper->dataset + "-" +
                   std::to_string(data_wrapper->data_size) + ".csv";
       std::cout << "Save result to :" << save_path << std::endl;

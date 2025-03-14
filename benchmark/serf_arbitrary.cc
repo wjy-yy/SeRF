@@ -39,6 +39,7 @@ void log_result_recorder(
     const std::map<int, std::pair<float, float>> &result_recorder,
     const std::map<int, float> &comparison_recorder, const int amount) {
   for (auto it : result_recorder) {
+    cout<<it.second.first<<" "<<amount<<" "<<result_recorder.size()<<endl;
     cout << std::setiosflags(ios::fixed) << std::setprecision(4)
          << "range: " << it.first
          << "\t recall: " << it.second.first / (amount / result_recorder.size())
@@ -167,6 +168,7 @@ int main(int argc, char **argv) {
             BaseIndex::SearchParams s_params;
             s_params.query_K = data_wrapper.query_k;
             for (auto one_searchef : searchef_para_range_list) {
+              double rec=0,tim=0;
               s_params.search_ef = one_searchef;
               std::map<int, std::pair<float, float>>
                   result_recorder;  // first->precision, second->query_time
@@ -180,12 +182,19 @@ int main(int argc, char **argv) {
                 auto res = index.rangeFilteringSearchOutBound(
                     &s_params, &search_info, data_wrapper.querys.at(one_id),
                     data_wrapper.query_ranges.at(idx));
+                // std::cout<<idx<<" ";
+                // for(auto iii:data_wrapper.querys.at(one_id))
+                //   std::cout<<iii<<" ";
+                // std::cout<<data_wrapper.query_ranges.at(idx).first<<" "<<data_wrapper.query_ranges.at(idx).second<<endl;
                 search_info.precision =
                     countPrecision(data_wrapper.groundtruth.at(idx), res);
+                std::cout<<search_info.precision<<endl;
                 result_recorder[s_params.query_range].first +=
                     search_info.precision;
+                rec += search_info.precision;
                 result_recorder[s_params.query_range].second +=
                     search_info.internal_search_time;
+                tim += search_info.internal_search_time;
                 comparison_recorder[s_params.query_range] +=
                     search_info.total_comparison;
               }
@@ -195,6 +204,8 @@ int main(int argc, char **argv) {
                    << "========================" << endl;
               log_result_recorder(result_recorder, comparison_recorder,
                                   data_wrapper.query_ids.size());
+              cout << "========================" << endl;
+              printf("Recall: %.5lf QPS: %.5lf",rec / 1000,1000/tim);
               cout << "========================" << endl;
               logTime(tt3, tt4, "total query time");
             }

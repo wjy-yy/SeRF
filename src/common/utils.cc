@@ -59,11 +59,17 @@ void logTime(timeval &begin, timeval &end, const string &log) {
 
 double countPrecision(const vector<int> &truth, const vector<int> &pred) {
   double num_right = 0;
+  cout<<"GT: ";
   for (auto one : truth) {
+    std::cout<<one<<" ";
     if (find(pred.begin(), pred.end(), one) != pred.end()) {
       num_right += 1;
     }
   }
+  cout<<"\n Pre: ";
+  for(auto one : pred)
+  std::cout<<one<<" ";
+  cout<<endl;
   return num_right / truth.size();
 }
 

@@ -116,7 +116,7 @@ class BaseIndex {
 
     void Path(const string& ver) {
       version = ver;
-      save_path = "../exp/search/" + version + "-" + method + "-" +
+      save_path = "/home/junyao/SeRF/exp/search/" + version + "-" + method + "-" +
                   data_wrapper->dataset + "-" +
                   std::to_string(data_wrapper->data_size) + ".csv";
 
