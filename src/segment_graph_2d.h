@@ -841,7 +841,9 @@ class IndexSegmentGraph2D : public BaseIndex {
       const std::pair<int, int> query_bound) override {
     // timeval tt1, tt2, tt3, tt4;
     timeval tt3, tt4;
-
+    // for(auto ii:query)
+    //   std::cerr<<ii<<" ";
+    // std::cerr<<endl<<query_bound.first<<" "<<query_bound.second<<endl;
     VisitedList *vl = visited_list_pool_->getFreeVisitedList();
     vl_type *visited_array = vl->mass;
     vl_type visited_array_tag = vl->curV;
@@ -874,6 +876,7 @@ class IndexSegmentGraph2D : public BaseIndex {
 
     while (!candidate_set.empty()) {
       std::pair<float, int> current_node_pair = candidate_set.top();
+      // fprintf(stderr,"first: %.5lf, second: %d\n",current_node_pair.first,current_node_pair.second);
       int current_node_id = current_node_pair.second;
 
       if (-current_node_pair.first > lower_bound) {
@@ -904,10 +907,12 @@ class IndexSegmentGraph2D : public BaseIndex {
       // gettimeofday(&tt2, NULL);
       // AccumulateTime(tt1, tt2, search_info->fetch_nns_time);
       // gettimeofday(&tt1, NULL);
-
+      // std::cerr<<neighbor_iterators.size()<<endl;
       for (auto batch_it : neighbor_iterators) {
+        // std::cerr<<batch_it<<" "<<query_bound.first<<" "<<query_bound.second<<endl;
         unsigned visited_nn_num = 0;
         for (auto candidate_id : *batch_it) {
+          // std::cerr<<candidate_id<<" ";
           if (candidate_id < query_bound.first ||
               candidate_id > query_bound.second)
             continue;
@@ -934,6 +939,7 @@ class IndexSegmentGraph2D : public BaseIndex {
               top_candidates.pop();
               lower_bound = top_candidates.top().first;
             }
+            // fprintf(stderr,"dist: %.5lf, ef: %d\n",dist,ef);
           }
         }
       }
@@ -942,6 +948,8 @@ class IndexSegmentGraph2D : public BaseIndex {
     }
 
     vector<int> res;
+    // std::cerr<<"\nquery_K: "<<search_params->query_K<<endl;
+    // std::cerr<<"top_sz: "<<top_candidates.size()<<endl;
     while (top_candidates.size() > search_params->query_K) {
       top_candidates.pop();
     }
